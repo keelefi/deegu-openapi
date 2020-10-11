@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: deegu API
+  description: deegu API
+  version: 0.0.1
+
+servers:
+  - url: http://api.deegu.com/v1
+    description: Production API
+  - url: http://api.staging.deegu.com
+    description: Staging API
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Song:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        artist:
+          $ref: '#/components/schemas/Artist'
+      required:  
+        - id
+        - name
+        - artist
+    Artist:
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          songs:
+            type: array
+            items:
+              $ref: '#/components/schemas/Song'
+        required:
+          - id
+          - name
+
+security:
+  - BasicAuth: []
+
+paths:
+  /songs:
+    get:
+      summary: Returns a list of songs.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':    # status code
+          description: A JSON array of songs
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Song'
+    post:
+      summary: Creates a song.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+      responses: 
+        '201':
+          description: Created
+  /song/{songId}:
+    get:
+      summary: Returns a song by ID.
+      parameters:
+        - name: songId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses: 
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'

@@ -24,10 +24,29 @@ components:
           type: string
         artist:
           $ref: '#/components/schemas/Artist'
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
       required:  
         - id
         - name
-        - artist
+    Label:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        value:
+          type: string
+        sublabels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+      required:
+        - id
+        - name
+        - value
     Artist:
         properties:
           id:

@@ -22,8 +22,6 @@ components:
           type: integer
         name:
           type: string
-        artist:
-          $ref: '#/components/schemas/Artist'
         labels:
           type: array
           items:
@@ -47,19 +45,6 @@ components:
         - id
         - name
         - value
-    Artist:
-        properties:
-          id:
-            type: integer
-          name:
-            type: string
-          songs:
-            type: array
-            items:
-              $ref: '#/components/schemas/Song'
-        required:
-          - id
-          - name
 
 security:
   - BasicAuth: []
